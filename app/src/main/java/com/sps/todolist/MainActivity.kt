@@ -13,9 +13,9 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.sps.todo.feature.compose.TodoDetailsScreen
 import com.sps.todo.feature.compose.TodoListScreen
 import com.sps.todolist.ui.theme.TodoListTheme
+import com.todo.feature.TodoDetailsScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -42,7 +42,7 @@ class MainActivity : ComponentActivity() {
                                 TodoListScreen(navController = navController)
                             }
                             composable("todoDetails") {
-                                TodoDetailsScreen()
+                                TodoDetailsScreen(navController = navController)
                             }
                         }
                     }

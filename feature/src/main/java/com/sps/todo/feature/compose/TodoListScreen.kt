@@ -19,7 +19,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import com.example.feature.TodoViewModel
+import com.sps.todo.feature.viewmodel.TodoViewModel
 
 
 @Composable
