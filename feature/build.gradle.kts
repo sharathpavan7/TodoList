@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.todo.feature"
+    namespace = "com.sps.todo.feature"
     compileSdk = 34
 
     defaultConfig {
@@ -50,7 +50,14 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
     // Hilt
-    implementation("com.google.dagger:hilt-android:2.49")
+    implementation("com.google.dagger:hilt-android:2.44")
     kapt("com.google.dagger:hilt-android-compiler:2.44")
     implementation ("androidx.hilt:hilt-navigation-compose:1.2.0")
+
+    // Compose
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.0")
+    implementation("androidx.compose.ui:ui:1.6.7")
+    implementation("androidx.compose.material:material:1.6.7")
+    implementation("androidx.compose.ui:ui-tooling:1.6.7")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
 }
