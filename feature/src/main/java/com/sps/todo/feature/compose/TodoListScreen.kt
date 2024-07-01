@@ -31,21 +31,31 @@ fun TodoListScreen(
     viewModel: TodoViewModel = hiltViewModel()
 ) {
     val todoList = viewModel.todoList.collectAsState(initial = emptyList())
+    val searchQuery = viewModel.searchQuery.collectAsState().value
 
-    TodoListContent(navController, todoList = { todoList.value })
+    TodoListContent(
+        navController,
+        todoList = { todoList.value },
+        searchQuery = { searchQuery },
+        onSearchChange = { viewModel.setSearchQuery(it) })
 }
 
 
 @Composable
-fun TodoListContent(navController: NavHostController, todoList: () -> List<Todo>) {
+fun TodoListContent(
+    navController: NavHostController,
+    todoList: () -> List<Todo>,
+    searchQuery: () -> String,
+    onSearchChange: (String) -> Unit
+) {
     Scaffold(
         topBar = {
             TopAppBar(
                 title = { Text("TODO List") },
                 actions = {
                     TextField(
-                        value = "searchQuery",
-                        onValueChange = { /*viewModel.updateSearchQuery(it)*/ },
+                        value = searchQuery(),
+                        onValueChange = { onSearchChange(it) },
                         placeholder = { Text("Search TODOs") }
                     )
                 }
@@ -83,5 +93,5 @@ fun TodoListContent(navController: NavHostController, todoList: () -> List<Todo>
 fun TodoListContentPreview() {
     TodoListContent(
         navController = NavHostController(LocalContext.current),
-        todoList = { emptyList() })
+        todoList = { emptyList() }, searchQuery = { "" }, onSearchChange = {})
 }
