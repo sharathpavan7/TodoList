@@ -6,4 +6,7 @@
     <string name="search_todos">Search TODOs</string>
     <string name="todo_item">TODO Item</string>
     <string name="please_enter_a_valid_text">Please enter a Valid Text</string>
+    <string name="error">Error</string>
+    <string name="failed_to_add_todo">Failed to add TODO</string>
+    <string name="dismiss">Dismiss</string>
 </resources>
