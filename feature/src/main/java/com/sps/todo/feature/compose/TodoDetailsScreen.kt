@@ -8,7 +8,6 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -21,11 +20,15 @@ fun TodoDetailsScreen(
     viewModel: TodoViewModel = hiltViewModel()
 ) {
 
-    TodoDetailsScreenContent(onAddTodoButtonClick = {
-        viewModel.addTodo(onComplete = {
-            navController.popBackStack()
-        })
-    }, todo = { viewModel.todo.value }, onTodoValueChange = { viewModel.onTodoValueChange(it) })
+    TodoDetailsScreenContent(
+        onAddTodoButtonClick = {
+            viewModel.addTodo(onComplete = {
+                navController.popBackStack()
+            })
+        },
+        todo = { viewModel.todo.value },
+        onTodoValueChange = { viewModel.onTodoValueChange(it) },
+        addTodoInProgress = { viewModel.addTodoInProgress.value })
 
 }
 
@@ -33,7 +36,8 @@ fun TodoDetailsScreen(
 private fun TodoDetailsScreenContent(
     onAddTodoButtonClick: () -> Unit,
     todo: () -> String,
-    onTodoValueChange: (String) -> Unit
+    onTodoValueChange: (String) -> Unit,
+    addTodoInProgress: () -> Boolean
 ) {
 
     Column(modifier = Modifier.padding(16.dp)) {
@@ -46,27 +50,17 @@ private fun TodoDetailsScreenContent(
         Button(
             onClick = {
                 onAddTodoButtonClick()
-                if (/*text == "Error"*/ true) {
-//                    errorMessage = "Failed to add TODO"
-//                    viewModel.onBackToList()
-                } else {
-//                    isLoading = true
-//                    viewModel.addTodo(text) {
-//                        isLoading = false
-//                        viewModel.onBackToList()
-//                    }
-                }
             },
             modifier = Modifier.padding(top = 8.dp)
         ) {
             Text("Add TODO")
         }
-        if (true) {
+        if (addTodoInProgress()) {
             CircularProgressIndicator(modifier = Modifier.padding(top = 16.dp))
         }
-        if (/*errorMessage.isNotEmpty()*/ true) {
-            Text("errorMessage", color = Color.Red, modifier = Modifier.padding(top = 16.dp))
-        }
+//        if (/*errorMessage.isNotEmpty()*/ true) {
+//            Text("errorMessage", color = Color.Red, modifier = Modifier.padding(top = 16.dp))
+//        }
     }
 
 }
@@ -74,5 +68,9 @@ private fun TodoDetailsScreenContent(
 @Composable
 @Preview
 private fun TodoDetailsScreenContentPreview() {
-    TodoDetailsScreenContent(onAddTodoButtonClick = {}, todo = { "" }, onTodoValueChange = {})
+    TodoDetailsScreenContent(
+        onAddTodoButtonClick = {},
+        todo = { "" },
+        onTodoValueChange = {},
+        addTodoInProgress = { false })
 }

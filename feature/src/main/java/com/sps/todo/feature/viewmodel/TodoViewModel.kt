@@ -27,6 +27,9 @@ class TodoViewModel @Inject constructor(
     private val _todo = mutableStateOf("")
     val todo: State<String> = _todo
 
+    private val _addTodoInProgress = mutableStateOf(false)
+    val addTodoInProgress: State<Boolean> = _addTodoInProgress
+
     val todoList: StateFlow<List<Todo>> = repository.getTodos()
         .combine(_searchQuery) { todos, query ->
             if (query.isEmpty()) {
@@ -46,9 +49,11 @@ class TodoViewModel @Inject constructor(
     }
 
     internal fun addTodo(onComplete: () -> Unit) {
+        _addTodoInProgress.value = true
         viewModelScope.launch {
             delay(3000)
             repository.insert(Todo(description = _todo.value))
+            _addTodoInProgress.value = false
             onComplete()
         }
     }
