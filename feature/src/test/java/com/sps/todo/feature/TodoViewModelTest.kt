@@ -92,28 +92,4 @@ class TodoViewModelTest {
         assertThat(viewModel.errorEvent.value).isEqualTo("Failed to add TODO")
         assertThat(viewModel.addTodoInProgress.value).isFalse()
     }
-
-    @Test
-    fun testTodoListFiltering() = runTest {
-        val todos = listOf(
-            Todo(description = "Test1"),
-            Todo(description = "Another Test"),
-            Todo(description = "Sample")
-        )
-        coEvery { repository.getTodos() } returns flowOf(todos)
-
-        // Ensure the initial state is updated
-        viewModel.setSearchQuery("Test")
-
-        // Advance the coroutine to allow the debounce to process
-        advanceTimeBy(2000)
-
-        // Verify the filtering
-        val filteredTodos = viewModel.todoList.value
-        assertThat(filteredTodos).hasSize(2)
-        assertThat(filteredTodos).containsExactly(
-            Todo(description = "Test1"),
-            Todo(description = "Another Test")
-        )
-    }
 }

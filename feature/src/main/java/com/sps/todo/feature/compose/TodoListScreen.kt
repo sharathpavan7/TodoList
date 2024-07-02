@@ -26,7 +26,7 @@ import com.sps.todo.feature.viewmodel.TodoViewModel
 @Composable
 fun TodoListScreen(
     navController: NavHostController,
-    viewModel: TodoViewModel = hiltViewModel()
+    viewModel: TodoViewModel
 ) {
     val todoList by viewModel.todoList.collectAsState(initial = emptyList())
     val searchQuery by viewModel.searchQuery.collectAsState()

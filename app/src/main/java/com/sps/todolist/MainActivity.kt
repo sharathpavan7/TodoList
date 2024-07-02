@@ -1,4 +1,4 @@
-package com.sps.todolist
+package com.todo.todolistapp
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -10,11 +10,13 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.sps.todo.feature.compose.TodoDetailsScreen
 import com.sps.todo.feature.compose.TodoListScreen
+import com.sps.todo.feature.viewmodel.TodoViewModel
 import com.sps.todolist.ui.theme.TodoListTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -32,6 +34,7 @@ class MainActivity : ComponentActivity() {
                 ) {
 
                     val navController = rememberNavController()
+                    val viewModel: TodoViewModel = hiltViewModel()
                     Scaffold {
                         NavHost(
                             modifier = Modifier.padding(it),
@@ -39,10 +42,10 @@ class MainActivity : ComponentActivity() {
                             startDestination = "todoList"
                         ) {
                             composable("todoList") {
-                                TodoListScreen(navController = navController)
+                                TodoListScreen(navController = navController, viewModel)
                             }
                             composable("todoDetails") {
-                                TodoDetailsScreen(navController = navController)
+                                TodoDetailsScreen(navController = navController, viewModel)
                             }
                         }
                     }
