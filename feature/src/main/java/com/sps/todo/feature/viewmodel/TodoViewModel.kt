@@ -1,5 +1,7 @@
 package com.sps.todo.feature.viewmodel
 
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sps.todo.data.model.Todo
@@ -22,6 +24,9 @@ class TodoViewModel @Inject constructor(
     private val _searchQuery = MutableStateFlow("")
     val searchQuery: StateFlow<String> = _searchQuery
 
+    private val _todo = mutableStateOf("")
+    val todo: State<String> = _todo
+
     val todoList: StateFlow<List<Todo>> = repository.getTodos()
         .combine(_searchQuery) { todos, query ->
             if (query.isEmpty()) {
@@ -32,15 +37,19 @@ class TodoViewModel @Inject constructor(
         }.stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
 
 
-    fun setSearchQuery(query: String) {
+    internal fun onTodoValueChange(text: String) {
+        _todo.value = text
+    }
+
+    internal fun setSearchQuery(query: String) {
         _searchQuery.value = query
     }
 
-    internal fun addTodo(description: String, onComplete: () -> Unit) {
+    internal fun addTodo(onComplete: () -> Unit) {
         viewModelScope.launch {
             delay(3000)
-            repository.insert(Todo(description = description))
-            onCleared()
+            repository.insert(Todo(description = _todo.value))
+            onComplete()
         }
     }
 

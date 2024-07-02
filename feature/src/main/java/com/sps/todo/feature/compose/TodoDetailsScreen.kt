@@ -1,4 +1,4 @@
-package com.todo.feature
+package com.sps.todo.feature.compose
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -7,10 +7,6 @@ import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
@@ -25,31 +21,31 @@ fun TodoDetailsScreen(
     viewModel: TodoViewModel = hiltViewModel()
 ) {
 
-    TodoDetailsScreenContent(onAddTodoButtonClick = { description ->
-        viewModel.addTodo(description, onComplete = {
+    TodoDetailsScreenContent(onAddTodoButtonClick = {
+        viewModel.addTodo(onComplete = {
             navController.popBackStack()
         })
-    })
+    }, todo = { viewModel.todo.value }, onTodoValueChange = { viewModel.onTodoValueChange(it) })
 
 }
 
 @Composable
-private fun TodoDetailsScreenContent(onAddTodoButtonClick: (String) -> Unit) {
-
-    var text by remember { mutableStateOf("") }
-//    var isLoading by remember { mutableStateOf(false) }
-//    var errorMessage by remember { mutableStateOf("") }
+private fun TodoDetailsScreenContent(
+    onAddTodoButtonClick: () -> Unit,
+    todo: () -> String,
+    onTodoValueChange: (String) -> Unit
+) {
 
     Column(modifier = Modifier.padding(16.dp)) {
         TextField(
-            value = text,
-            onValueChange = { text = it },
+            value = todo(),
+            onValueChange = { onTodoValueChange(it) },
             label = { Text("TODO Item") },
             singleLine = true
         )
         Button(
             onClick = {
-                onAddTodoButtonClick(text)
+                onAddTodoButtonClick()
                 if (/*text == "Error"*/ true) {
 //                    errorMessage = "Failed to add TODO"
 //                    viewModel.onBackToList()
@@ -78,5 +74,5 @@ private fun TodoDetailsScreenContent(onAddTodoButtonClick: (String) -> Unit) {
 @Composable
 @Preview
 private fun TodoDetailsScreenContentPreview() {
-    TodoDetailsScreenContent(onAddTodoButtonClick = {})
+    TodoDetailsScreenContent(onAddTodoButtonClick = {}, todo = { "" }, onTodoValueChange = {})
 }
