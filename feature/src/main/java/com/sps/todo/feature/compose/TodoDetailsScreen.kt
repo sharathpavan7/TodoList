@@ -47,11 +47,12 @@ private fun TodoDetailsScreenContent(
     isError: () -> Boolean
 ) {
 
-    Box(modifier = Modifier.fillMaxSize()) {
+    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
         Column(
             modifier = Modifier
                 .padding(16.dp)
-                .fillMaxSize()
+                .fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             TextField(
                 modifier = Modifier.fillMaxWidth(),
@@ -59,7 +60,8 @@ private fun TodoDetailsScreenContent(
                 onValueChange = { onTodoValueChange(it) },
                 label = { Text("TODO Item") },
                 singleLine = true,
-                isError = isError()
+                isError = isError(),
+                enabled = addTodoInProgress().not()
             )
 
             if (isError()) {
@@ -77,7 +79,8 @@ private fun TodoDetailsScreenContent(
                 },
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
-                    .padding(top = 8.dp)
+                    .padding(top = 8.dp),
+                enabled = addTodoInProgress().not()
             ) {
                 Text("Add TODO")
             }
