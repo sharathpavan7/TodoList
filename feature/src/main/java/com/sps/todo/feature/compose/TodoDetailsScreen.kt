@@ -1,12 +1,17 @@
 package com.sps.todo.feature.compose
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Button
 import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -28,7 +33,8 @@ fun TodoDetailsScreen(
         },
         todo = { viewModel.todo.value },
         onTodoValueChange = { viewModel.onTodoValueChange(it) },
-        addTodoInProgress = { viewModel.addTodoInProgress.value })
+        addTodoInProgress = { viewModel.addTodoInProgress.value },
+        isError = { viewModel.isTodoError.value })
 
 }
 
@@ -37,30 +43,52 @@ private fun TodoDetailsScreenContent(
     onAddTodoButtonClick: () -> Unit,
     todo: () -> String,
     onTodoValueChange: (String) -> Unit,
-    addTodoInProgress: () -> Boolean
+    addTodoInProgress: () -> Boolean,
+    isError: () -> Boolean
 ) {
 
-    Column(modifier = Modifier.padding(16.dp)) {
-        TextField(
-            value = todo(),
-            onValueChange = { onTodoValueChange(it) },
-            label = { Text("TODO Item") },
-            singleLine = true
-        )
-        Button(
-            onClick = {
-                onAddTodoButtonClick()
-            },
-            modifier = Modifier.padding(top = 8.dp)
+    Box(modifier = Modifier.fillMaxSize()) {
+        Column(
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxSize()
         ) {
-            Text("Add TODO")
-        }
-        if (addTodoInProgress()) {
-            CircularProgressIndicator(modifier = Modifier.padding(top = 16.dp))
-        }
+            TextField(
+                modifier = Modifier.fillMaxWidth(),
+                value = todo(),
+                onValueChange = { onTodoValueChange(it) },
+                label = { Text("TODO Item") },
+                singleLine = true,
+                isError = isError()
+            )
+
+            if (isError()) {
+                Text(
+                    text = "Error message",
+                    color = MaterialTheme.colors.error,
+                    style = MaterialTheme.typography.caption,
+                    modifier = Modifier
+                )
+            }
+
+            Button(
+                onClick = {
+                    onAddTodoButtonClick()
+                },
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .padding(top = 8.dp)
+            ) {
+                Text("Add TODO")
+            }
 //        if (/*errorMessage.isNotEmpty()*/ true) {
 //            Text("errorMessage", color = Color.Red, modifier = Modifier.padding(top = 16.dp))
 //        }
+        }
+
+        if (addTodoInProgress()) {
+            CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+        }
     }
 
 }
@@ -72,5 +100,5 @@ private fun TodoDetailsScreenContentPreview() {
         onAddTodoButtonClick = {},
         todo = { "" },
         onTodoValueChange = {},
-        addTodoInProgress = { false })
+        addTodoInProgress = { false }, isError = { true })
 }

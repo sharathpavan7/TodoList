@@ -27,6 +27,9 @@ class TodoViewModel @Inject constructor(
     private val _todo = mutableStateOf("")
     val todo: State<String> = _todo
 
+    private val _isTodoError = mutableStateOf(false)
+    val isTodoError = _isTodoError
+
     private val _addTodoInProgress = mutableStateOf(false)
     val addTodoInProgress: State<Boolean> = _addTodoInProgress
 
@@ -49,13 +52,21 @@ class TodoViewModel @Inject constructor(
     }
 
     internal fun addTodo(onComplete: () -> Unit) {
-        _addTodoInProgress.value = true
-        viewModelScope.launch {
-            delay(3000)
-            repository.insert(Todo(description = _todo.value))
-            _addTodoInProgress.value = false
-            onComplete()
+        if (validationSuccess()) {
+            _addTodoInProgress.value = true
+            viewModelScope.launch {
+                delay(3000)
+                repository.insert(Todo(description = _todo.value))
+                _addTodoInProgress.value = false
+                onComplete()
+            }
         }
+    }
+
+    private fun validationSuccess(): Boolean {
+        val todoIsNotEmpty = _todo.value.isNotEmpty()
+        _isTodoError.value = todoIsNotEmpty.not()
+        return todoIsNotEmpty
     }
 
 }
