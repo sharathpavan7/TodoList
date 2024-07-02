@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="todo_list">TODO List</string>
+    <string name="add_todo">Add TODO</string>
+    <string name="press_the_button_to_add_a_todo_item">Press the + button to add a TODO item</string>
+    <string name="search_todos">Search TODOs</string>
+    <string name="todo_item">TODO Item</string>
+    <string name="please_enter_a_valid_text">Please enter a Valid Text</string>
+</resources>

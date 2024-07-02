@@ -13,10 +13,12 @@ import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import com.sps.todo.feature.R
 import com.sps.todo.feature.viewmodel.TodoViewModel
 
 @Composable
@@ -58,7 +60,7 @@ private fun TodoDetailsScreenContent(
                 modifier = Modifier.fillMaxWidth(),
                 value = todo(),
                 onValueChange = { onTodoValueChange(it) },
-                label = { Text("TODO Item") },
+                label = { Text(stringResource(R.string.todo_item)) },
                 singleLine = true,
                 isError = isError(),
                 enabled = addTodoInProgress().not()
@@ -66,7 +68,7 @@ private fun TodoDetailsScreenContent(
 
             if (isError()) {
                 Text(
-                    text = "Error message",
+                    text = stringResource(R.string.please_enter_a_valid_text),
                     color = MaterialTheme.colors.error,
                     style = MaterialTheme.typography.caption,
                     modifier = Modifier
@@ -82,11 +84,8 @@ private fun TodoDetailsScreenContent(
                     .padding(top = 8.dp),
                 enabled = addTodoInProgress().not()
             ) {
-                Text("Add TODO")
+                Text(stringResource(id = R.string.add_todo))
             }
-//        if (/*errorMessage.isNotEmpty()*/ true) {
-//            Text("errorMessage", color = Color.Red, modifier = Modifier.padding(top = 16.dp))
-//        }
         }
 
         if (addTodoInProgress()) {
