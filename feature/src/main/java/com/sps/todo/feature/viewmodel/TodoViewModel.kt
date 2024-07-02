@@ -74,10 +74,12 @@ class TodoViewModel @Inject constructor(
                     repository.insert(Todo(description = _todo.value))
                     _addTodoInProgress.value = false
                     onComplete()
+                    _todo.value = ""
                 } catch (e: Exception) {
                     _addTodoInProgress.value = false
                     _errorEvent.update { "Failed to add TODO" }
                     onComplete()
+                    _todo.value = ""
                 }
             }
         }
