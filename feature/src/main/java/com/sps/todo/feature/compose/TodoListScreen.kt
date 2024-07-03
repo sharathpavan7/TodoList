@@ -90,9 +90,9 @@ fun TodoListContent(
                             text = { Text(stringResource(R.string.failed_to_add_todo)) },
                             confirmButton = {
                                 Button(
-                                    colors = ButtonDefaults.buttonColors(Color.Blue),
+                                    colors = ButtonDefaults.buttonColors(Color.Red),
                                     onClick = { clearErrorEvent() }) {
-                                    Text(stringResource(R.string.dismiss))
+                                    Text(stringResource(R.string.dismiss), color = Color.White)
                                 }
 
                             }
