@@ -1,4 +1,4 @@
-package com.example.todolistapp
+package com.sps.todolist
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
