@@ -56,7 +56,7 @@ fun TodoListScreen(
 }
 
 @Composable
-fun TodoListContent(
+private fun TodoListContent(
     navController: NavHostController,
     todoList: () -> List<Todo>,
     searchQuery: () -> String,
@@ -135,7 +135,7 @@ fun TodoListContent(
 
 @Composable
 @Preview(showBackground = false)
-fun TodoListContentPreview() {
+private fun TodoListContentPreview() {
     TodoListContent(
         navController = NavHostController(LocalContext.current),
         todoList = { emptyList() },

@@ -70,6 +70,7 @@ class TodoViewModel @Inject constructor(
                         throw IllegalArgumentException()
                     }
                     _addTodoInProgress.value = true
+                    _searchQuery.update { "" }
                     delay(3000)
                     repository.insert(Todo(description = _todo.value))
                     _addTodoInProgress.value = false
